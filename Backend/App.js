@@ -5,14 +5,18 @@ import { sendPaymentEmail, sendRegistrationEmail } from './Nodemailer/emails.js'
 import paymentRouter from "./Routes/PaymentRoutes.js"
 import AuthRouter from "./Routes/AuthRoutes.js"
 
+import cookieParser from 'cookie-parser';
 
 
 dotenv.config(); // Load environment variables from .env file
+
 
 const app = express();
 
 // Middleware to parse JSON requests (if needed for POST requests)
 app.use(express.json());
+app.use(cookieParser());
+
 
 // Route to check if server is running
 app.get('/', (req, res) => {
@@ -31,7 +35,7 @@ app.use('/api/payment', paymentRouter);
 
 
 //User Routes by admin
-app.use('/api/user',AuthRouter);
+app.use('/api/auth',AuthRouter);
 
 
 

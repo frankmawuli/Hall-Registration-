@@ -1,11 +1,12 @@
 import axios from 'axios';
 import dotenv from 'dotenv';
+import User from "../Models/Authmodel.js"
 dotenv.config();
 
 
 export const  initializePayment = async (req, res) => {
     try {
-        const { email, amount } = req.body; // Expect email and amount from request body
+        const {email, amount } = req.body; // Expect email and amount from request body
 
         const response = await axios.post(
             'https://api.paystack.co/transaction/initialize',
@@ -56,6 +57,7 @@ export const verifyPayment = async(req, res) => {
                 message: 'Payment verified successfully.',
                 data: transaction.data,
             });
+            
         } else {
             // Payment failed or is incomplete 
             return res.status(400).json({
@@ -64,6 +66,8 @@ export const verifyPayment = async(req, res) => {
                 data: transaction.data,
             });
         }
+        
+
     } catch (error) {
         console.error('Error verifying payment:', error.message);
         return res.status(500).json({

@@ -2,18 +2,20 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
     name:{type : String, required: true},
-    email:{type : String, required: true},
-    studentId: {type : String, required: true},
-    role: {type : String, required: true},
+    email:{type : String, required: true , unique: true},
+    studentId: {type : String, required: true , unique: true},
+    role: {type : String, default: 'student'},
     password: {type : String, required: true},
     lastLogin: {type : Date, default: Date.now},
 
 
     //Payments
     payments: [{
+        type: { type: String },
         amount: { type: Number },
         status: { type: String },
         transactionId: { type: String },
+        reference : { type: String },
         transactionDate: { type: Date, default: Date.now }
     }],
     //Hall Registration

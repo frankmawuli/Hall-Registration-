@@ -1,26 +1,30 @@
 import express from 'express';
+import {addUser, checkAuth, login,logout} from "../Controllers/AuthControllers.js"
+import { verifyToken } from '../utils/verifyToken.js';
+
 const router = express()
 export default router;
 
-//Add a user 
-router.post('/register', (req, res) => {
-    res.send('User registered');
-});
+
 
 
 
 //Login a user
-router.post('/login', (req, res) => {
-    res.send('User logged in');
-});
+router.post('/login', login);
 
 
 //logout a user
-router.post('/logout', (req, res) => {
-    res.send('User logged out');
-});
+router.post('/logout', logout);
 
 
+
+//Check Auth 
+router.get ('/checkAuth',verifyToken,checkAuth)
+
+
+
+//Add a user 
+router.post('/register', addUser);
 //Delete a user
 router.delete('/delete', (req, res) => {
     res.send('User deleted');
