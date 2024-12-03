@@ -1,6 +1,7 @@
 import express from 'express';
-import {addUser, checkAuth, login,logout} from "../Controllers/AuthControllers.js"
+import {addUser, checkAuth, deleteUser, findUser, login,logout} from "../Controllers/AuthControllers.js"
 import { verifyToken } from '../utils/verifyToken.js';
+import isAdmin from '../utils/isAdmin.js';
 
 const router = express()
 export default router;
@@ -26,9 +27,7 @@ router.get ('/checkAuth',verifyToken,checkAuth)
 //Add a user 
 router.post('/register', addUser);
 //Delete a user
-router.delete('/delete', (req, res) => {
-    res.send('User deleted');
-});
+router.delete('/delete/:id', deleteUser);
 
 
 //Update a user
@@ -37,6 +36,4 @@ router.put('/update', (req, res) => {
 });
 
 //Find a user 
-router.get('/find', (req, res) => {
-    res.send('User found');
-});
+router.get('/find/:id', findUser);

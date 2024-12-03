@@ -12,7 +12,7 @@ export const addUser = async (req, res) => {
     const { name, email, studentId, role, password } = req.body;
 
     // Input Validation
-    if (!name || !email || !studentId || !password) {
+    if (!name || !email || !studentId || !password ) {
         return res.status(400).json({ message: 'Please enter all fields' });
     }
     if (password.length < 6) {
@@ -103,7 +103,6 @@ export const logout = async (req, res) => {
 
 
 //Check if a user is logged in
-
 export const checkAuth = async (req, res) => {
     try {
         if (!mongoose.Types.ObjectId.isValid(req.userId)) {
@@ -116,5 +115,39 @@ export const checkAuth = async (req, res) => {
     } catch (err) {
         res.status(400).json({ success: false, message: err.message });
     }
+};
+
+
+
+//Delete a user 
+export const deleteUser = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const user = await User.findById(id);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        await user.remove();
+        res.status(200).json({ message: 'User deleted successfully' });
+    
+    }catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'An error occurred while deleting the user' });
+    }
+};
+
+
+export const findUser = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const user = await User.findById(id);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        res.status(200).json({ message: 'User found', user });
+    }catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'An error occurred while finding the user' });
+    }  
 };
 
